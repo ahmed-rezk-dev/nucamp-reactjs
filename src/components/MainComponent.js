@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Navbar, NavbarBrand } from "reactstrap";
 import Directory from "./DirectoryComponent";
 import CampsiteInfo from "./CampsiteInfoComponent";
 import { CAMPSITES } from "../shared/campsites";
+import Header from "./HeaderComponent";
+import Footer from "./FooterComponent";
 
 class Main extends Component {
 	constructor(props) {
@@ -19,12 +20,8 @@ class Main extends Component {
 
 	render() {
 		return (
-			<div>
-				<Navbar dark color="primary">
-					<div className="container">
-						<NavbarBrand href="/">NuCamp</NavbarBrand>
-					</div>
-				</Navbar>
+			<>
+				<Header />
 				<Directory
 					campsites={this.state.campsites}
 					onClick={campsiteId => this.onCampsiteSelect(campsiteId)}
@@ -37,7 +34,8 @@ class Main extends Component {
 						)[0]
 					}
 				/>
-			</div>
+				<Footer />
+			</>
 		);
 	}
 }
