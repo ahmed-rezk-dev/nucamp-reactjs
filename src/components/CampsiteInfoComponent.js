@@ -1,5 +1,14 @@
 import React from "react";
-import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
+import {
+	Card,
+	CardImg,
+	CardText,
+	CardBody,
+	CardTitle,
+	Breadcrumb,
+	BreadcrumbItem
+} from "reactstrap";
+import { Link } from "react-router-dom";
 
 function RenderCampsite({ campsite }) {
 	return (
@@ -47,6 +56,20 @@ function CompsiteInfo({ campsite, comments }) {
 		<>
 			{campsite ? (
 				<div className="container">
+					<div className="row">
+						<div className="col">
+							<Breadcrumb>
+								<BreadcrumbItem>
+									<Link to="/directory">Directory</Link>
+								</BreadcrumbItem>
+								<BreadcrumbItem active>
+									{campsite.name}
+								</BreadcrumbItem>
+							</Breadcrumb>
+							<h2>{campsite.name}</h2>
+							<hr />
+						</div>
+					</div>
 					<div className="row">
 						<RenderCampsite campsite={campsite} />
 						<RenderComments comments={comments} />
