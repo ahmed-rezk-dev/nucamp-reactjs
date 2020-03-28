@@ -1,31 +1,45 @@
-import React from "react";
+import React, { Component } from "react";
 import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
+import CampsiteInfo from "./CampsiteInfoComponent";
 
-function RenderDirectoryItem({ campsite, onClick }) {
-	return (
-		<Card>
-			<CardImg width="100%" src={campsite.image} alt={campsite.name} />
-			<CardImgOverlay>
-				<CardTitle>{campsite.name}</CardTitle>
-			</CardImgOverlay>
-		</Card>
-	);
-}
+class Directory extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			selectedCampsite: null
+		};
+	}
 
-function Directory(props) {
-	const directory = props.campsites.map(campsite => {
+	onCampsiteSelect(campsite) {
+		this.setState({ selectedCampsite: campsite });
+	}
+
+	render() {
+		const { selectedCampsite } = this.state;
+		const directory = this.props.campsites.map(campsite => {
+			return (
+				<div key={campsite.id} className="col-md-5 m-1">
+					<Card onClick={() => this.onCampsiteSelect(campsite)}>
+						<CardImg
+							width="100%"
+							src={campsite.image}
+							alt={campsite.name}
+						/>
+						<CardImgOverlay>
+							<CardTitle>{campsite.name}</CardTitle>
+						</CardImgOverlay>
+					</Card>
+				</div>
+			);
+		});
+
 		return (
-			<div key={campsite.id} className="col-md-5 m-1">
-				<RenderDirectoryItem campsite={campsite} />
+			<div className="container">
+				<div className="row">{directory}</div>
+				<CampsiteInfo campsite={selectedCampsite} />
 			</div>
 		);
-	});
-
-	return (
-		<div className="container">
-			<div className="row">{directory}</div>
-		</div>
-	);
+	}
 }
 
 export default Directory;
