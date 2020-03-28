@@ -42,15 +42,14 @@ function RenderComments({ comments }) {
 	return <div />;
 }
 
-function CompsiteInfo(props) {
-	const { campsite } = props;
+function CompsiteInfo({ campsite, comments }) {
 	return (
 		<>
 			{campsite ? (
 				<div className="container">
 					<div className="row">
 						<RenderCampsite campsite={campsite} />
-						<RenderComments comments={campsite.comments} />
+						<RenderComments comments={comments} />
 					</div>
 				</div>
 			) : (
