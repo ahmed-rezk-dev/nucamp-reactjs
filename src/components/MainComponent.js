@@ -6,6 +6,7 @@ import { CAMPSITES } from "../shared/campsites";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import Contact from "./ContactComponent";
+import Aboutus from "./AboutComponent";
 import CampsiteInfo from "./CampsiteInfoComponent";
 import { COMMENTS } from "../shared/comments";
 import { PARTNERS } from "../shared/partners";
@@ -78,6 +79,13 @@ class Main extends Component {
 						)}
 					/>
 					<Route exact path="/contactus" component={Contact} />
+					<Route
+						exact
+						path="/aboutus"
+						render={() => (
+							<Aboutus partners={this.state.partners} />
+						)}
+					/>
 					<Route
 						path="/directory/:campsiteId"
 						component={CampsiteWithId}
