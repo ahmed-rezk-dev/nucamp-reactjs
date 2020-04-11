@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { actions } from "react-redux-form";
 import Home from "./HomeComponent";
 import Directory from "./DirectoryComponent";
 import { CAMPSITES } from "../shared/campsites";
@@ -95,7 +96,17 @@ class Main extends Component {
 							path="/directory/:campsiteId"
 							component={CampsiteWithId}
 						/>
-						<Route exact path="/contactus" component={Contact} />
+						<Route
+							exact
+							path="/contactus"
+							render={() => (
+								<Contact
+									resetFeedbackForm={
+										this.props.resetFeedbackForm
+									}
+								/>
+							)}
+						/>
 						<Route
 							exact
 							path="/aboutus"
@@ -124,6 +135,7 @@ const mapDispatchToProps = {
 	addComment: (campsiteId, rating, author, text) =>
 		addComment(campsiteId, rating, author, text),
 	fetchCampsites: () => fetchCampsites(),
+	resetFeedbackForm: () => actions.reset("feedbackForm"),
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
