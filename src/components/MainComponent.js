@@ -12,7 +12,8 @@ import CampsiteInfo from "./CampsiteInfoComponent";
 import { COMMENTS } from "../shared/comments";
 import { PARTNERS } from "../shared/partners";
 import { PROMOTIONS } from "../shared/promotions";
-import { addComment } from "../redux/ActionCreators";
+import { addComment, fetchCampsites } from "../redux/ActionCreators";
+
 class Main extends Component {
 	constructor(props) {
 		super(props);
@@ -28,16 +29,21 @@ class Main extends Component {
 	onCampsiteSelect(campsiteId) {
 		this.setState({ selectedCampsite: campsiteId });
 	}
+	componentDidMount() {
+		this.props.fetchCampsites();
+	}
 
 	render() {
 		const HomePage = () => {
 			return (
 				<Home
 					campsite={
-						this.props.campsites.filter(
+						this.props.campsites.campsites.filter(
 							(campsite) => campsite.featured
 						)[0]
 					}
+					campsitesLoading={this.props.campsites.isLoading}
+					campsitesErrMess={this.props.campsites.errMess}
 					promotion={
 						this.props.promotions.filter(
 							(promotion) => promotion.featured
@@ -56,11 +62,13 @@ class Main extends Component {
 			return (
 				<CampsiteInfo
 					campsite={
-						this.props.campsites.filter(
+						this.props.campsites.campsites.filter(
 							(campsite) =>
 								campsite.id === +match.params.campsiteId
 						)[0]
 					}
+					isLoading={this.props.campsites.isLoading}
+					errMess={this.props.campsites.errMess}
 					comments={this.props.comments.filter(
 						(comment) =>
 							comment.campsiteId === +match.params.campsiteId
@@ -69,6 +77,7 @@ class Main extends Component {
 				/>
 			);
 		};
+
 		return (
 			<>
 				<div>
@@ -114,6 +123,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
 	addComment: (campsiteId, rating, author, text) =>
 		addComment(campsiteId, rating, author, text),
+	fetchCampsites: () => fetchCampsites(),
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
