@@ -13,7 +13,12 @@ import CampsiteInfo from "./CampsiteInfoComponent";
 import { COMMENTS } from "../shared/comments";
 import { PARTNERS } from "../shared/partners";
 import { PROMOTIONS } from "../shared/promotions";
-import { addComment, fetchCampsites, fetchComments, fetchPromotions } from '../redux/ActionCreators';
+import {
+	postComment,
+	fetchCampsites,
+	fetchComments,
+	fetchPromotions,
+} from "../redux/ActionCreators";
 
 class Main extends Component {
 	constructor(props) {
@@ -35,20 +40,31 @@ class Main extends Component {
 		this.props.fetchComments();
 		this.props.fetchPromotions();
 	}
-	
 
 	render() {
-		console.log('props', this.props);
+		console.log("props", this.props);
 		const HomePage = () => {
 			return (
 				<Home
-					campsite={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}
-                    campsitesLoading={this.props.campsites.isLoading}
-                    campsitesErrMess={this.props.campsites.errMess}
-                    partner={this.props.partners.filter(partner => partner.featured)[0]}
-                    promotion={this.props.promotions.promotions.filter(promotion => promotion.featured)[0]}
-                    promotionLoading={this.props.promotions.isLoading}
-                    promotionErrMess={this.props.promotions.errMess}
+					campsite={
+						this.props.campsites.campsites.filter(
+							(campsite) => campsite.featured
+						)[0]
+					}
+					campsitesLoading={this.props.campsites.isLoading}
+					campsitesErrMess={this.props.campsites.errMess}
+					partner={
+						this.props.partners.filter(
+							(partner) => partner.featured
+						)[0]
+					}
+					promotion={
+						this.props.promotions.promotions.filter(
+							(promotion) => promotion.featured
+						)[0]
+					}
+					promotionLoading={this.props.promotions.isLoading}
+					promotionErrMess={this.props.promotions.errMess}
 				/>
 			);
 		};
@@ -64,11 +80,11 @@ class Main extends Component {
 					}
 					isLoading={this.props.campsites.isLoading}
 					errMess={this.props.campsites.errMess}
-					comments={this.props.comments.filter(
+					comments={this.props.comments.comments.filter(
 						(comment) =>
 							comment.campsiteId === +match.params.campsiteId
 					)}
-					addComment={this.props.addComment}
+					postComment={this.props.postComment}
 				/>
 			);
 		};
@@ -126,11 +142,12 @@ const mapStateToProps = (state) => {
 	};
 };
 const mapDispatchToProps = {
-	addComment: (campsiteId, rating, author, text) => (addComment(campsiteId, rating, author, text)),
-	fetchCampsites: () => (fetchCampsites()),
-	resetFeedbackForm: () => (actions.reset('feedbackForm')),
-	fetchComments: () => (fetchComments()),
-	fetchPromotions: () => (fetchPromotions())
+	postComment: (campsiteId, rating, author, text) =>
+		postComment(campsiteId, rating, author, text),
+	fetchCampsites: () => fetchCampsites(),
+	resetFeedbackForm: () => actions.reset("feedbackForm"),
+	fetchComments: () => fetchComments(),
+	fetchPromotions: () => fetchPromotions(),
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

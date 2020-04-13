@@ -38,7 +38,7 @@ function RenderCampsite({ campsite }) {
 }
 
 // comments
-function RenderComments({ comments, addComment, campsiteId }) {
+function RenderComments({ comments, postComment, campsiteId }) {
 	if (comments) {
 		return (
 			<div className="col-md-5 m-1">
@@ -58,7 +58,10 @@ function RenderComments({ comments, addComment, campsiteId }) {
 						</div>
 					);
 				})}
-				<CommentForm campsiteId={campsiteId} addComment={addComment} />
+				<CommentForm
+					campsiteId={campsiteId}
+					postComment={postComment}
+				/>
 			</div>
 		);
 	}
@@ -86,7 +89,7 @@ class CommentForm extends Component {
 
 	handleSubmit(values) {
 		this.toggleModal();
-		this.props.addComment(
+		this.props.postComment(
 			this.props.campsiteId,
 			values.rating,
 			values.author,
@@ -129,9 +132,9 @@ class CommentForm extends Component {
 								<Col>
 									<Label htmlFor="yourname">Your Name</Label>
 									<Control.text
-										model=".yourname"
+										model=".author"
 										id="yourname"
-										name="yourname"
+										name="author"
 										placeholder="Your Name"
 										className="form-control"
 										validators={{
@@ -142,7 +145,7 @@ class CommentForm extends Component {
 									/>
 									<Errors
 										className="text-danger"
-										model=".yourname"
+										model=".author"
 										show="touched"
 										component="div"
 										messages={{
@@ -160,9 +163,9 @@ class CommentForm extends Component {
 								<Col>
 									<Label htmlFor="comment">Comment</Label>
 									<Control.textarea
-										model=".comment"
+										model=".text"
 										id="comment"
-										name="comment"
+										name="text"
 										rows="12"
 										className="form-control"
 									/>
@@ -186,7 +189,7 @@ class CommentForm extends Component {
 	}
 }
 
-function CompsiteInfo({ campsite, comments, addComment, isLoading, errMess }) {
+function CompsiteInfo({ campsite, comments, postComment, isLoading, errMess }) {
 	if (isLoading) {
 		return (
 			<div className="container">
@@ -229,7 +232,7 @@ function CompsiteInfo({ campsite, comments, addComment, isLoading, errMess }) {
 						<RenderCampsite campsite={campsite} />
 						<RenderComments
 							comments={comments}
-							addComment={addComment}
+							postComment={postComment}
 							campsiteId={campsite.id}
 						/>
 					</div>
